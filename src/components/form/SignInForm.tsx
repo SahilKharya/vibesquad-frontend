@@ -88,6 +88,10 @@ const SignInForm = () => {
           Sign in
         </Button>
       </form>
+      
+      <button onClick={() => signIn("instagram")}>
+        Sign in
+      </button>
       <p className='text-center text-sm text-gray-600 mt-2'>
         If you don&apos;t have an account, please&nbsp;
         <Link className='text-blue-500 hover:underline' href='/sign-up'>

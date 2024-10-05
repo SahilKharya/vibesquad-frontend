@@ -3,10 +3,10 @@ import prisma from '@lib/prisma';
 import { compare } from 'bcrypt';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
+// import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import InstagramProvider from "next-auth/providers/instagram";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/sign-in',
@@ -15,6 +15,10 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   providers: [
+    InstagramProvider({
+      clientId: process.env.INSTAGRAM_CLIENT_ID,
+      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET
+    }),
     CredentialsProvider({
       name: 'Sign in',
       credentials: {
@@ -25,7 +29,8 @@ export const authOptions: NextAuthOptions = {
         },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials) {
+     
+      authorize: async (credentials, req) => {
         if (!credentials?.email || !credentials.password) {
           return null;
         }
@@ -45,7 +50,6 @@ export const authOptions: NextAuthOptions = {
         if (!isPasswordValid) {
           return null;
         }
-
         return {
           id: user.id + '',
           email: user.email,

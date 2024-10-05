@@ -8,15 +8,8 @@ import { Session } from "next-auth";
 
 export default function NavBar({ session }: { session: Session | null }) {
   return (
-    <div className=' bg-zinc-100 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0'>
-      {/* <div className='container flex items-center justify-between'>
-        <Link href='/'>
-          <HandMetal />
-        </Link>
-        <Link className={buttonVariants()} href='/sign-in'>
-          Sign in
-        </Link>
-      </div> */}
+    // <div className=' bg-zinc-100 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0'>
+    <div className='bg-red-200 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0'>
 
       <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between w-full">
           <Link href="/" className="flex items-center font-display text-2xl">
