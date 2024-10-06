@@ -5,6 +5,7 @@ import { buttonVariants } from '../ui/button';
 import { HandMetal } from 'lucide-react';
 import UserDropdown from "./user-dropdown";
 import { Session } from "next-auth";
+import React from 'react';
 
 export default function NavBar({ session }: { session: Session | null }) {
   return (
@@ -40,11 +41,11 @@ export default function NavBar({ session }: { session: Session | null }) {
                   </button>{" "}
                 </Link>
                 &ensp;
-                <Link href="/sign-in">
+                {/* <Link href="/sign-up">
                   <button className="rounded-md border border-white bg-white p-1.5 px-8 text-sm text-black transition-all hover:bg-white hover:text-black">
                     Sign Up
                   </button>
-                </Link>
+                </Link> */}
               </>
             )}
           </div>
