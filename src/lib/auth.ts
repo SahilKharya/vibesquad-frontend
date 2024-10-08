@@ -20,7 +20,6 @@ export const authOptions: NextAuthOptions = {
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID as string,
       clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
-      version: "2.0", // opt-in to Twitter OAuth 2.0
     }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID as string,

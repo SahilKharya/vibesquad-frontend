@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -8,21 +8,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import Link from 'next/link';
-import GoogleSignInButton from '../GoogleSignInButton';
-import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation';
+} from "../ui/form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import GoogleSignInButton from "../GoogleSignInButton";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 const FormSchema = z.object({
-  email: z.string().min(1, 'Email is required').email('Invalid email'),
+  email: z.string().min(1, "Email is required").email("Invalid email"),
   password: z
     .string()
-    .min(1, 'Password is required')
-    .min(8, 'Password must have than 8 characters'),
+    .min(1, "Password is required")
+    .min(8, "Password must have than 8 characters"),
 });
 
 const SignInForm = () => {
@@ -30,37 +30,37 @@ const SignInForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    const signInData = await signIn('credentials', {
+    const signInData = await signIn("credentials", {
       email: values.email,
       password: values.password,
       redirect: false,
     });
-  
+
     if (signInData?.error) {
       console.log(signInData.error);
     } else {
-      router.push('/home');
+      router.push("/home");
     }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-        <div className='space-y-2'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+        <div className="space-y-2">
           <FormField
             control={form.control}
-            name='email'
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder='mail@example.com' {...field} />
+                  <Input placeholder="mail@example.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -68,14 +68,14 @@ const SignInForm = () => {
           />
           <FormField
             control={form.control}
-            name='password'
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
-                    type='password'
-                    placeholder='Enter your password'
+                    type="password"
+                    placeholder="Enter your password"
                     {...field}
                   />
                 </FormControl>
@@ -84,27 +84,39 @@ const SignInForm = () => {
             )}
           />
         </div>
-        <Button className='w-full mt-6' type='submit'>
+        <Button className="w-full mt-6" type="submit">
           Sign in
         </Button>
       </form>
-      
-      <button onClick={() => signIn("instagram")}>
-        Sign in
-      </button>
-      <div>
-      <button onClick={() => signIn("facebook")}>
-        Sign in Facebook
-      </button>
+
+      <div className="social-login-buttons">
+        {/* Twitter/X */}
+        <Button
+          onClick={() => signIn("twitter")}
+          className="bg-[#1DA1F2] text-white w-full mt-4"
+        >
+          <i className="fab fa-twitter mr-2"></i> Sign in with X
+        </Button>
+
+        {/* Facebook */}
+        <Button
+          onClick={() => signIn("facebook")}
+          className="bg-[#1877F2] text-white w-full mt-4"
+        >
+          <i className="fab fa-facebook mr-2"></i> Sign in with Facebook
+        </Button>
+
+        {/* Instagram */}
+        <Button
+          onClick={() => signIn("instagram")}
+          className="bg-gradient-to-r from-[#feda75] via-[#fa7e1e] to-[#d62976] text-white w-full mt-4"
+        >
+          <i className="fab fa-instagram mr-2"></i> Sign in with Instagram
+        </Button>
       </div>
-      <div>
-      <button onClick={() => signIn("twitter")}>
-        Sign in X
-      </button>
-      </div>
-      <p className='text-center text-sm text-gray-600 mt-2'>
+      <p className="text-center text-sm text-gray-600 mt-2">
         If you don&apos;t have an account, please&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-up'>
+        <Link className="text-blue-500 hover:underline" href="/sign-up">
           Sign up
         </Link>
       </p>
