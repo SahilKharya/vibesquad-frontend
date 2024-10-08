@@ -1,6 +1,6 @@
-"use client"
-import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+"use client";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
@@ -10,33 +10,33 @@ const ProfilePage = () => {
     facebook: '',
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setSocialUsernames({
       ...socialUsernames,
       [e.target.name]: e.target.value,
     });
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Save the social usernames (API call or other logic)
-    console.log(socialUsernames);
+  const handleSave = (platform: keyof typeof socialUsernames) => {
+    console.log(`Saved ${platform} username:`, socialUsernames[platform]);
+    // API call or logic to save the specific username for the platform
   };
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg">
       <div className="flex flex-col items-center space-y-4">
         <img
-          src={'/logo-VS.png'}
+          src={"/logo-VS.png"}
           alt="Profile"
           className="w-32 h-32 rounded-full shadow-md"
         />
         <h1 className="text-2xl font-semibold">{session?.user?.name}</h1>
-        <p className="text-gray-600">User Rating: <strong>4.5/5</strong></p>
+        <p className="text-gray-600">
+          User Rating: <strong>4.5/5</strong>
+        </p>
       </div>
-
-      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-        <div className="flex items-center justify-between space-x-4">
+      <div className="space-y-6">
+        {/* Twitter */}
+        <div className="flex items-center space-x-4">
           <div className="flex-1">
             <label htmlFor="twitter" className="block text-gray-700">
               Twitter Username
@@ -49,7 +49,17 @@ const ProfilePage = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
+          <button
+            type="button"
+            onClick={() => handleSave("twitter")}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+          >
+            Save Twitter
+          </button>
+        </div>
 
+        {/* Instagram */}
+        <div className="flex items-center space-x-4">
           <div className="flex-1">
             <label htmlFor="instagram" className="block text-gray-700">
               Instagram Username
@@ -62,7 +72,17 @@ const ProfilePage = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
+          <button
+            type="button"
+            onClick={() => handleSave("instagram")}
+            className="px-4 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition"
+          >
+            Save Instagram
+          </button>
+        </div>
 
+        {/* Facebook */}
+        <div className="flex items-center space-x-4">
           <div className="flex-1">
             <label htmlFor="facebook" className="block text-gray-700">
               Facebook Username
@@ -75,17 +95,15 @@ const ProfilePage = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
-        </div>
-
-        <div className="flex justify-center mt-4">
           <button
-            type="submit"
-            className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+            type="button"
+            onClick={() => handleSave("facebook")}
+            className="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-900 transition"
           >
-            Save Usernames
+            Save Facebook
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

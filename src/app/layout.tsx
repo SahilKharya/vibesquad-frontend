@@ -20,9 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider> {/* Wrap everything in SessionProvider */}
+        <AuthProvider>
+          {" "}
+          {/* Wrap everything in SessionProvider */}
           <main className="h-screen flex flex-col justify-center items-center">
-            <Navbar session={null} />
+            <Navbar />
             {children}
           </main>
           <Footer />
