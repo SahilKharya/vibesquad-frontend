@@ -7,7 +7,7 @@ import UserDropdown from "./layout/user-dropdown";
 import { Session } from "next-auth";
 import { useSession, signIn, signOut } from "next-auth/react";
 import React from "react";
-import Image from 'next/image';
+import Image from "next/image";
 
 export default function NavBar() {
   const { data: session } = useSession();
@@ -27,43 +27,49 @@ export default function NavBar() {
           <p>VibeSquad</p>
         </Link>
         <div>
-          {session ? (
-            <button
-              onClick={() => signOut()}
-              className="rounded-md border border-white bg-transparent p-1.5 px-8 text-sm text-white transition-all hover:bg-white hover:text-black"
-            >
-              Logout
-            </button>
-          ) : (
-            <>
-              <Link href="/sign-in">
-                <button className="rounded-md border border-white bg-transparent p-1.5 px-8 text-sm text-white transition-all hover:bg-white hover:text-black">
-                  Log In
-                </button>{" "}
-              </Link>
-              &ensp;
-            </>
-          )}
-    <ul className="flex items-center space-x-4">
-      <li><Link href="/">Home</Link></li>
-      {session && (
-        <li className="flex items-center space-x-2">
-          <Image
-            src={"/logo-VS.png"}
-            alt="Profile Picture"
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
-          <Link href="/profile" className="text-blue-600 hover:underline">
-            {session.user?.name || "Profile"}
-          </Link>
-        </li>
-      )}
-    </ul>
-
-
-
+          <ul className="flex items-center space-x-4">
+            <li>
+              <Link href="/">Home</Link>
+            </li>
+            {session && (
+              <>
+                {" "}
+                <li>
+                  <button
+                    onClick={() => signOut()}
+                    className="rounded-md border border-white bg-transparent p-1.5 px-8 text-sm text-white transition-all hover:bg-white hover:text-black"
+                  >
+                    Logout
+                  </button>
+                </li>
+                <li className="flex items-center space-x-2">
+                  <Image
+                    src={"/logo-VS.png"}
+                    alt="Profile Picture"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                  <Link
+                    href="/profile"
+                    className="text-blue-600 hover:underline"
+                  >
+                    {session.user?.name || "Profile"}
+                  </Link>
+                </li>
+              </>
+            )}
+            {!session && (
+              <>
+                <Link href="/sign-in">
+                  <button className="rounded-md border border-white bg-transparent p-1.5 px-8 text-sm text-white transition-all hover:bg-white hover:text-black">
+                    Log In
+                  </button>{" "}
+                </Link>
+                &ensp;
+              </>
+            )}
+          </ul>
         </div>
       </div>
     </div>
