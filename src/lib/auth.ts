@@ -10,25 +10,27 @@ import FacebookProvider from "next-auth/providers/facebook";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  // pages: {
-  //   signIn: '/sign-in',
-  // },
+  pages: {
+    signIn: '/sign-in',
+  },
   session: {
     strategy: 'jwt',
   },
   providers: [
+    TwitterProvider({
+      clientId: process.env.TWITTER_CLIENT_ID as string,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET as string,
+      version: "2.0", // opt-in to Twitter OAuth 2.0
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID as string,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string
+    }),
     InstagramProvider({
       clientId: process.env.INSTAGRAM_CLIENT_ID,
       clientSecret: process.env.INSTAGRAM_CLIENT_SECRET
     }),
-    TwitterProvider({
-      clientId: process.env.TWITTER_CLIENT_ID as string,
-      clientSecret: process.env.TWITTER_CLIENT_SECRET as string
-    }),
-    FacebookProvider({
-      clientId: process.env.INSTAGRAM_CLIENT_ID as string,
-      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET as string
-    }),
+
     CredentialsProvider({
       name: 'Sign in',
       credentials: {
@@ -72,6 +74,11 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session: ({ session, token }) => {
+      if(token) {
+        console.log(token)
+        session.user.id = token.id as string;
+        session.user.username = token.username as string;
+      }
       return {
         ...session,
         user: {
@@ -83,6 +90,8 @@ export const authOptions: NextAuthOptions = {
     jwt: ({ token, user }) => {
       if (user) {
         const u = user as unknown as any;
+        token.id = user.id?.toString()
+        token.username = user.username
         return {
           ...token,
           id: u.id,
