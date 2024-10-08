@@ -7,8 +7,11 @@ import UserDropdown from "./layout/user-dropdown";
 import { Session } from "next-auth";
 import { useSession, signIn, signOut } from "next-auth/react";
 import React from "react";
+import Image from 'next/image';
 
-export default function NavBar({ session }: { session: Session | null }) {
+export default function NavBar() {
+  const { data: session } = useSession();
+
   return (
     // <div className=' bg-zinc-100 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0'>
     <div className="bg-red-200 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0">
@@ -41,6 +44,26 @@ export default function NavBar({ session }: { session: Session | null }) {
               &ensp;
             </>
           )}
+    <ul className="flex items-center space-x-4">
+      <li><Link href="/">Home</Link></li>
+      {session && (
+        <li className="flex items-center space-x-2">
+          <Image
+            src={"/logo-VS.png"}
+            alt="Profile Picture"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+          <Link href="/profile" className="text-blue-600 hover:underline">
+            {session.user?.name || "Profile"}
+          </Link>
+        </li>
+      )}
+    </ul>
+
+
+
         </div>
       </div>
     </div>
