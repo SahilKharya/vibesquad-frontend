@@ -100,7 +100,11 @@ const SignInForm = () => {
 
         {/* Facebook */}
         <Button
-          onClick={() => signIn("facebook")}
+          onClick={async () =>
+            await signIn('facebook', {
+              callbackUrl: `${window.location.origin}`,
+            })
+          }
           className="bg-[#1877F2] text-white w-full mt-4"
         >
           <i className="fab fa-facebook mr-2"></i> Sign in with Facebook
