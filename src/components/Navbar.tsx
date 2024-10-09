@@ -61,11 +61,9 @@ export default function NavBar() {
             )}
             {!session && (
               <>
-                <Link href="/sign-in">
-                  <button className="rounded-md border border-white bg-transparent p-1.5 px-8 text-sm text-white transition-all hover:bg-white hover:text-black">
+                  <button  onClick={() => signIn()} className="rounded-md border border-white bg-transparent p-1.5 px-8 text-sm text-white transition-all hover:bg-white hover:text-black">
                     Log In
                   </button>{" "}
-                </Link>
                 &ensp;
               </>
             )}

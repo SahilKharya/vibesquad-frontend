@@ -92,7 +92,11 @@ const SignInForm = () => {
       <div className="social-login-buttons">
         {/* Twitter/X */}
         <Button
-          onClick={() => signIn("twitter")}
+          onClick={async () =>
+            await signIn("twitter", {
+              callbackUrl: "/home",
+            })
+          }
           className="bg-[#1DA1F2] text-white w-full mt-4"
         >
           <i className="fab fa-twitter mr-2"></i> Sign in with X
@@ -101,8 +105,8 @@ const SignInForm = () => {
         {/* Facebook */}
         <Button
           onClick={async () =>
-            await signIn('facebook', {
-              callbackUrl: `${window.location.origin}`,
+            await signIn("facebook", {
+              callbackUrl: "/home",
             })
           }
           className="bg-[#1877F2] text-white w-full mt-4"
@@ -112,7 +116,11 @@ const SignInForm = () => {
 
         {/* Instagram */}
         <Button
-          onClick={() => signIn("instagram")}
+          onClick={async () =>
+            await signIn("instagram", {
+              callbackUrl: "/home",
+            })
+          }
           className="bg-gradient-to-r from-[#feda75] via-[#fa7e1e] to-[#d62976] text-white w-full mt-4"
         >
           <i className="fab fa-instagram mr-2"></i> Sign in with Instagram

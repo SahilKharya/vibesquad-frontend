@@ -33,6 +33,8 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async redirect({ url, baseUrl }) {
+      console.log(url)
+      console.log(baseUrl)
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`
       // Allows callback URLs on the same origin
@@ -40,13 +42,18 @@ export const authOptions: NextAuthOptions = {
       return baseUrl
     },
     async session({ session, user, token }) {
+      console.log('sesss   :',session)
+      console.log('toke   :',token)
+
       if (token) {
         session.user.id = token.id!;
         session.user.username = token.username as string;
       }
       return session
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user }) {
+      console.log('sesss   :',session)
+      console.log('toke   :',token)
       if (user) {
         // const u = user as unknown as any;
         // token.id = user.id?.toString()
