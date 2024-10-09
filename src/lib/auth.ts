@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, user, token }) {
       console.log('sesss   :',session)
-      console.log('toke   :',token)
+      console.log('token   :',token)
 
       if (token) {
         session.user.id = token.id!;
@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
       return session
     },
     async jwt({ token, user }) {
-      console.log('sesss   :',session)
+      console.log('user   :',user)
       console.log('toke   :',token)
       if (user) {
         // const u = user as unknown as any;
