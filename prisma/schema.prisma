@@ -13,11 +13,11 @@ datasource db {
 
 model User {
   id            String          @id @default(cuid())
+  name          String?
   username      String?         @unique
   email         String          @unique
   emailVerified DateTime?
   image         String?
-  password      String
   accounts      Account[]
   sessions      Session[]
   // Optional for WebAuthn support
@@ -32,14 +32,16 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?
-  access_token      String?
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  oauth_token        String?  // for twitter
+  oauth_token_secret String?  // for twitter
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String?
+  id_token          String?  @db.Text
   session_state     String?
- 
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
  
