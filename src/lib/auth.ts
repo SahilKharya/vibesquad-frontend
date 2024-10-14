@@ -20,15 +20,42 @@ export const authOptions: NextAuthOptions = {
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID!,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.id,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture?.data?.url,  // Facebook profile image
+          username: profile.name,  // Assigning Facebook name as username
+        };
+      }
     }),
     TwitterProvider({
       clientId: process.env.TWITTER_API_KEY!,
       clientSecret: process.env.TWITTER_API_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.id_str,
+          name: profile.name,
+          email: profile.email,  // Twitter may not provide email; handle accordingly
+          image: profile.profile_image_url_https,
+          username: profile.screen_name,  // Custom field
+        };
+      },
     }),
 
     InstagramProvider({
-      clientId: process.env.INSTAGRAM_CLIENT_ID,
-      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET
+      clientId: process.env.INSTAGRAM_CLIENT_ID!,
+      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET!,
+      profile(profile: any) {
+        return {
+          id: profile.id!,
+          name: profile.username!,  // Instagram username
+          email: profile.email!,
+          image: profile.profile_picture!,
+          username: profile.username!,  // Assign Instagram username
+        };
+      },
     }),
   ],
   callbacks: {
@@ -41,26 +68,35 @@ export const authOptions: NextAuthOptions = {
       else if (new URL(url).origin === baseUrl) return url
       return baseUrl
     },
-    async session({ session, user, token }) {
-      console.log('sesss   :',session)
-      console.log('token   :',token)
+    async jwt({ token, user, account, profile, isNewUser }) {
 
-      if (token) {
+      if (user) {
+        token.id = user.id?.toString()
+        token.username = user.username
+      }
+      if (profile) {
+        console.log('profile   :', profile)
+
+        token.profile = profile;
+      }
+      return token
+    },
+
+    async session({ session, user, token }) {
+      console.log('sesss   :', session)
+      console.log('token   :', token)
+      console.log('user   :', user)
+      if (user) {
+        session.user.id = user.id!;
+        session.user.name = user.name as string;
+        session.user.username = user.username as string;
+        session.user.email = user.email as string;
+      } else if (token) {
         session.user.id = token.id!;
-        session.user.username = token.username as string;
+        session.user.name = token.username as string;
       }
       return session
     },
-    async jwt({ token, user }) {
-      console.log('user   :',user)
-      console.log('toke   :',token)
-      if (user) {
-        // const u = user as unknown as any;
-        // token.id = user.id?.toString()
-        token.username = user.username 
-      }
-      return token
-    }
   },
 };
 
