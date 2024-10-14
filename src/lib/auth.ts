@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
     InstagramProvider({
       clientId: process.env.INSTAGRAM_CLIENT_ID!,
       clientSecret: process.env.INSTAGRAM_CLIENT_SECRET!,
-      profile(profile) {
+      profile(profile: any) {
         return {
           id: profile.id,
           name: profile.username,

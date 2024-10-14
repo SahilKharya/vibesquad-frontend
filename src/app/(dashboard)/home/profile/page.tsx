@@ -15,13 +15,13 @@ const ProfilePage = () => {
   // Fetch user info using Next.js API route with dynamic ID
   useEffect(() => {
     if (session) {
-      console.log("Session Info:", session);  // Logs session data in the browser console
-      const userId = session?.user?.id;  // Assuming session contains `user.id`
+      console.log("Session Info:", session); // Logs session data in the browser console
+      const userId = session?.user?.id; // Assuming session contains `user.id`
 
       // Fetch user info using the userId
       const fetchUserInfo = async () => {
         try {
-          const response = await fetch(`/api/user/${userId}`);  // Fetch user info from your API
+          const response = await fetch(`/api/user/${userId}`); // Fetch user info from your API
           const data = await response.json();
           setUserInfo(data);
         } catch (error) {
@@ -60,7 +60,7 @@ const ProfilePage = () => {
         {userInfo && (
           <div className="mt-4">
             <p className="text-lg font-medium">
-             Hellloooo Social Score: <strong>{userInfo.socialScore}</strong>
+              Social Score: <strong>{userInfo.socialScore}</strong>
             </p>
           </div>
         )}
@@ -68,7 +68,11 @@ const ProfilePage = () => {
 
       {/* Social Username Inputs */}
       <div className="space-y-6">
-        {["twitter", "instagram", "facebook"].map((platform) => (
+        {(
+          ["twitter", "instagram", "facebook"] as Array<
+            keyof typeof socialUsernames
+          >
+        ).map((platform) => (
           <div key={platform} className="flex items-center space-x-4">
             <div className="flex-1">
               <label
@@ -87,9 +91,7 @@ const ProfilePage = () => {
             </div>
             <button
               type="button"
-              onClick={() =>
-                handleSave(platform as keyof typeof socialUsernames)
-              }
+              onClick={() => handleSave(platform)}
               className={`px-4 py-2 bg-${
                 platform === "twitter"
                   ? "blue-600"
