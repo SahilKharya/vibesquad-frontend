@@ -1,22 +1,14 @@
-// lib/auth.ts
-import prisma from '@lib/prisma';
-import { compare } from 'bcrypt';
 import { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import FacebookProvider from "next-auth/providers/facebook";
-import InstagramProvider from "next-auth/providers/instagram";
-import TwitterProvider from "next-auth/providers/twitter";
+import FacebookProvider from 'next-auth/providers/facebook';
+import TwitterProvider from 'next-auth/providers/twitter';
+import InstagramProvider from 'next-auth/providers/instagram';
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  adapter: PrismaAdapter(prisma),
   pages: {
     signIn: '/sign-in',
   },
-
   providers: [
-
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID!,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
@@ -25,10 +17,10 @@ export const authOptions: NextAuthOptions = {
           id: profile.id,
           name: profile.name,
           email: profile.email,
-          image: profile.picture?.data?.url,  // Facebook profile image
-          username: profile.name,  // Assigning Facebook name as username
+          image: profile.picture?.data?.url,
+          username: profile.name,
         };
-      }
+      },
     }),
     TwitterProvider({
       clientId: process.env.TWITTER_API_KEY!,
@@ -37,23 +29,22 @@ export const authOptions: NextAuthOptions = {
         return {
           id: profile.id_str,
           name: profile.name,
-          email: profile.email,  // Twitter may not provide email; handle accordingly
+          email: profile.email,
           image: profile.profile_image_url_https,
-          username: profile.screen_name,  // Custom field
+          username: profile.screen_name,
         };
       },
     }),
-
     InstagramProvider({
       clientId: process.env.INSTAGRAM_CLIENT_ID!,
       clientSecret: process.env.INSTAGRAM_CLIENT_SECRET!,
-      profile(profile: any) {
+      profile(profile) {
         return {
-          id: profile.id!,
-          name: profile.username!,  // Instagram username
-          email: profile.email!,
-          image: profile.profile_picture!,
-          username: profile.username!,  // Assign Instagram username
+          id: profile.id,
+          name: profile.username,
+          email: profile.email,
+          image: profile.profile_picture,
+          username: profile.username,
         };
       },
     }),
@@ -68,35 +59,27 @@ export const authOptions: NextAuthOptions = {
       else if (new URL(url).origin === baseUrl) return url
       return baseUrl
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
 
+
+    async jwt({ token, user, account, profile }) {
       if (user) {
-        token.id = user.id?.toString()
-        token.username = user.username
+        token.id = user.id;
+        token.username = user.username;
       }
       if (profile) {
-        console.log('profile   :', profile)
-
         token.profile = profile;
       }
-      return token
+      return token;
     },
+    async session({ session, token }) {
+      // Populate session with token data
+      session.user.id = token.id as string;
+      session.user.username = token.username as string;
 
-    async session({ session, user, token }) {
-      console.log('sesss   :', session)
-      console.log('token   :', token)
-      console.log('user   :', user)
-      if (user) {
-        session.user.id = user.id!;
-        session.user.name = user.name as string;
-        session.user.username = user.username as string;
-        session.user.email = user.email as string;
-      } else if (token) {
-        session.user.id = token.id!;
-        session.user.name = token.username as string;
-      }
-      return session
+      // console.log("session :  ", session)
+      // console.log("token eee 80 :  ", token)
+
+      return session;
     },
   },
 };
-

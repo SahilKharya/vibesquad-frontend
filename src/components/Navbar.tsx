@@ -1,10 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { buttonVariants } from "./ui/button";
-import { HandMetal } from "lucide-react";
-import UserDropdown from "./layout/user-dropdown";
-import { Session } from "next-auth";
 import { useSession, signIn, signOut } from "next-auth/react";
 import React from "react";
 import Image from "next/image";
@@ -51,7 +47,7 @@ export default function NavBar() {
                     className="rounded-full"
                   />
                   <Link
-                    href="/profile"
+                    href="/home/profile"
                     className="text-blue-600 hover:underline"
                   >
                     {session.user?.name || "Profile"}
