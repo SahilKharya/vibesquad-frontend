@@ -32,37 +32,37 @@ const ProfilePage = () => {
   );
 
   // API call to save login info when session is available
-  useEffect(() => {
-    const saveLoginInfo = async () => {
-      if (session?.user) {
-        try {
-          console.log("jwt info");
-          await fetch("https://api.vibesquad.co/v1/user/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: session.user.name,
-              account: session.user.email,
-              social: {
-                twitter: {
-                  username: session.user.username as string,
-                },
-              },
-            }),
-          });
+  // useEffect(() => {
+  //   const saveLoginInfo = async () => {
+  //     if (session?.user) {
+  //       try {
+  //         console.log("jwt info");
+  //         await fetch("https://api.vibesquad.co/v1/user/login", {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({
+  //             username: session.user.name,
+  //             account: session.user.email,
+  //             social: {
+  //               twitter: {
+  //                 username: session.user.username as string,
+  //               },
+  //             },
+  //           }),
+  //         });
 
-          console.log("User login info saved successfully");
-        } catch (error) {
-          console.error("Error saving user login info:", error);
-        }
-      }
-    };
+  //         console.log("User login info saved successfully");
+  //       } catch (error) {
+  //         console.error("Error saving user login info:", error);
+  //       }
+  //     }
+  //   };
 
-    // Trigger the API call when session is ready
-    saveLoginInfo();
-  }, [session]);
+  //   // Trigger the API call when session is ready
+  //   saveLoginInfo();
+  // }, [session]);
 
   return (
     <div>
