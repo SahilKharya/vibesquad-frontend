@@ -2,6 +2,7 @@ import { NextAuthOptions } from 'next-auth';
 import TwitterProvider from 'next-auth/providers/twitter';
 import FacebookProvider from 'next-auth/providers/facebook';
 import InstagramProvider from 'next-auth/providers/instagram';
+import axios from 'axios';
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -65,37 +66,42 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id?.toString();
         token.username = user.username;
+
+        // Prepare the payload for the API call
+        const payload = {
+          "username": user.username,
+          "account": account?.providerAccountId || '0x1234',
+          "social": {
+            [account?.provider || 'unknown']: {
+              username: user.username,
+            },
+          },
+        };
+
+        try {
+          // Make an API request to save user login info
+          const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+          const response = await axios.post(`${baseUrl}/api/user`, payload, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
+          console.log('User successfully saved:', response.data);
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            // Handle Axios-specific errors
+            console.error('Axios error:', error.response?.data || error.message);
+          } else if (error instanceof Error) {
+            // Handle general errors
+            console.error('Error saving user to DB:', error.message);
+          } else {
+            console.error('Unknown error:', error);
+          }
+        }
       }
       if (profile) {
         token.profile = profile;
-      }
-      
-      try {
-        let socialData = {};
-
-        if (account?.provider === 'twitter') {
-          socialData = { "twitter": { "username": user.username } };
-        } else if (account?.provider === 'facebook') {
-          socialData = { "facebook": { "username": user.username } };
-        } else if (account?.provider === 'instagram') {
-          socialData = { "instagram": { "username": user.username } };
-        }
-        console.log('socialData        :', socialData );       // Log account info if available
-
-        // Use the relative URL to your Next.js API route
-        await fetch(`${process.env.NEXTAUTH_URL}/api/user/`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: token.username,
-            account: token.email,
-            social: socialData
-          }),
-        });
-      } catch (error) {
-        console.error('Error saving user to DB:', error);
       }
 
       return token;
