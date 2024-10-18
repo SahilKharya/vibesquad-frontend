@@ -2,35 +2,31 @@ import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 
 export async function POST(req: NextRequest) {
-  console.log("Processing POST request to save user login info");
-  const { searchParams } = new URL(req.url);
-  const platform = searchParams.get('p') || 'unknown';
-
-  console.log(`Processing POST request for platform: ${platform}`);
-
   try {
+    // Parse the request body
     const body = await req.json();
     const { username, account, social } = body;
 
+    // Validate the required fields
     if (!username || !account) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
     }
 
-    console.log("Processing POST request to save user login info atttt : ", `${process.env.NEXT_PUBLIC_API_URL}/user/login`);
-
-    // Log the payload for debugging
     console.log('Payload being sent to the external API:', body);
 
-    // Use axios to make the POST request
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/login`, body, {
+    const socialPlatform = Object.keys(social)[0]; // Extracts the first key, e.g., 'twitter'
+
+    // POST request to the external API with the 'p' parameter included in the URL
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/login?p=${socialPlatform}`, body, {
       headers: {
         'Content-Type': 'application/json',
       },
+      timeout: 10000, // Timeout of 10 seconds
     });
 
-    // Check if the response status is OK
-    if (response.status !== 200) {
-      console.error('External API Error:', response.status, response.data);
+    // Check for a successful response from the external API
+    if (!response.status.toString().startsWith('2')) {
+      console.error('External API error:', response.status, response.data);
       return NextResponse.json({
         message: 'Failed to save user login info',
         status: response.status,
@@ -38,10 +34,21 @@ export async function POST(req: NextRequest) {
       }, { status: response.status });
     }
 
-    // Return the response data
-    return NextResponse.json(response.data, { status: 200 });
+    // Return the data from the external API response
+    const data = response.data;
+    console.log("Successful Post Login")
+    return NextResponse.json(data, { status: 200 });
+    
   } catch (error: any) {
-    console.error('Error saving user login info:', error);
-    return NextResponse.json({ message: 'Internal server error', error: error.message }, { status: 500 });
+    // Handle and log any errors that occur during the process
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.response?.data || error.message);
+    } else if (error instanceof Error) {
+      console.error('Error saving user login info:', error.message);
+    } else {
+      console.error('Unknown error:', error);
+    }
+
+    return NextResponse.json({ message: 'Internal server error', error: error.message || 'Unknown error' }, { status: 500 });
   }
 }

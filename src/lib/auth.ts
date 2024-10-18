@@ -58,10 +58,6 @@ export const authOptions: NextAuthOptions = {
     },
     async jwt({ token, user, account, profile }) {
       console.log('JWT callback triggered');  // Log to check function is invoked
-      console.log('Token:', token);           // Log initial token
-      console.log('User:', user);             // Log user info if available
-      console.log('Account:', account);       // Log account info if available
-      console.log('Profile:', profile);       // Log profile info if available
 
       if (user) {
         token.id = user.id?.toString();
@@ -69,8 +65,8 @@ export const authOptions: NextAuthOptions = {
 
         // Prepare the payload for the API call
         const payload = {
-          "username": user.username,
-          "account": account?.providerAccountId || '0x1234',
+          "username": token.id || user.username,
+          "account": account?.providerAccountId,
           "social": {
             [account?.provider || 'unknown']: {
               username: user.username,
@@ -80,7 +76,7 @@ export const authOptions: NextAuthOptions = {
 
         try {
           // Make an API request to save user login info
-          const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+          const baseUrl = process.env.NEXTAUTH_URL;
           const response = await axios.post(`${baseUrl}/api/user`, payload, {
             headers: {
               'Content-Type': 'application/json',
