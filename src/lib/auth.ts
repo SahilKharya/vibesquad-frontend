@@ -55,13 +55,12 @@ export const authOptions: NextAuthOptions = {
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user, account, profile }) {
       console.log('JWT callback triggered');  // Log to check function is invoked
       console.log('Token:', token);           // Log initial token
       console.log('User:', user);             // Log user info if available
       console.log('Account:', account);       // Log account info if available
       console.log('Profile:', profile);       // Log profile info if available
-      console.log('isNewUser:', isNewUser);   // Log if the user is new
 
       if (user) {
         token.id = user.id?.toString();
@@ -70,21 +69,21 @@ export const authOptions: NextAuthOptions = {
       if (profile) {
         token.profile = profile;
       }
+      
       try {
         let socialData = {};
 
         if (account?.provider === 'twitter') {
-          socialData = { twitter: { username: user.username } };
+          socialData = { "twitter": { "username": user.username } };
         } else if (account?.provider === 'facebook') {
-          socialData = { facebook: { username: user.username } };
+          socialData = { "facebook": { "username": user.username } };
         } else if (account?.provider === 'instagram') {
-          socialData = { instagram: { username: user.username } };
+          socialData = { "instagram": { "username": user.username } };
         }
         console.log('socialData        :', socialData );       // Log account info if available
 
-
         // Use the relative URL to your Next.js API route
-        await fetch(`${process.env.NEXTAUTH_URL}/api/user/saveLogin`, {
+        await fetch(`${process.env.NEXTAUTH_URL}/api/user/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

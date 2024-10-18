@@ -12,27 +12,6 @@ const ProfilePage = () => {
     facebook: "",
   });
 
-  // Fetch user info using Next.js API route with dynamic ID
-  // useEffect(() => {
-  //   if (session) {
-  //     console.log("Session Info:", session); // Logs session data in the browser console
-  //     const userId = session?.user?.id; // Assuming session contains `user.id`
-
-  //     // Fetch user info using the userId
-  //     const fetchUserInfo = async () => {
-  //       try {
-  //         const response = await fetch(`/api/user/${userId}`); // Fetch user info from your API
-  //         const data = await response.json();
-  //         setUserInfo(data);
-  //       } catch (error) {
-  //         console.error("Error fetching user data:", error);
-  //       }
-  //     };
-
-  //     fetchUserInfo();
-  //   }
-  // }, [session]);
-
   const handleChange = (e: { target: { name: any; value: any } }) => {
     setSocialUsernames({
       ...socialUsernames,

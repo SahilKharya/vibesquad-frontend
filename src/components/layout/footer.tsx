@@ -13,7 +13,7 @@ export default function Footer() {
               Vibe
             </h1>
           </div>
-          <div className="flex flex-col items-center justify-center flex-shrink-0 mt-6 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 lg:ml-4 lg:mt-0 lg:justify-end">
+          {/* <div className="flex flex-col items-center justify-center flex-shrink-0 mt-6 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4 lg:ml-4 lg:mt-0 lg:justify-end">
             <button className="inline-flex items-center px-6 py-3 rounded-lg bg-gray-600 text-gray-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ export default function Footer() {
                 <span className="font-semibold title-font">App Store</span>
               </span>
             </button>
-          </div>
+          </div> */}
           <div className="mt-6 lg:mt-0 lg:ml-4">
             <a
               href="/privacy-policy"

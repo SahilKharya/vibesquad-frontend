@@ -11,7 +11,7 @@ export default function NavBar() {
   return (
     // <div className=' bg-zinc-100 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0'>
     <div className="bg-red-400 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0">
-      <div className="mx-5 flex h-16 max-w-screen-xl items-center justify-between w-full">
+      <div className="mx-8 flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center font-display text-2xl">
           {/* <Image
               src="/logo.png"
