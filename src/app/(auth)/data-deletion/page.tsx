@@ -1,7 +1,7 @@
 // File: vibesquad-frontend/src/app/(auth)/data-deletion/page.tsx
 const DataDeletion = () => {
     return (
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto mt-20 p-4">
         <h1 className="text-3xl font-bold mb-4">Data Deletion Request</h1>
         <p className="mb-2">
           If you wish to request the deletion of your data from our platform, please follow the instructions below.

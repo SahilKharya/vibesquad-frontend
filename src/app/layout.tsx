@@ -23,7 +23,7 @@ export default function RootLayout({
         <AuthProvider>
           {" "}
           {/* Wrap everything in SessionProvider */}
-          <main className="h-screen flex flex-col justify-center items-center">
+          <main className="flex flex-col">
             <Navbar />
             {children}
           </main>

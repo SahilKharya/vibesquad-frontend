@@ -10,23 +10,23 @@ export default function NavBar() {
 
   return (
     // <div className=' bg-zinc-100 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0'>
-    <div className="bg-red-400 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0">
+    <div className="bg-slate-800 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0">
       <div className="mx-8 flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center font-display text-2xl">
-          {/* <Image
-              src="/logo.png"
-              alt="Precedent logo"
-              width="30"
-              height="30"
+          <Image
+              src="/vs.png"
+              alt="VibeSquad"
+              width="90"
+              height="90"
               className="mr-2 rounded-sm"
-            ></Image> */}
-          <p>VibeSquad</p>
+            ></Image>
+          {/* <p>VibeSquad</p> */}
         </Link>
         <div>
           <ul className="flex items-center space-x-4">
-            <li>
+            {/* <li>
               <Link href="/">Home</Link>
-            </li>
+            </li> */}
             {session && (
               <>
                 {" "}
@@ -37,20 +37,22 @@ export default function NavBar() {
                   >
                     Logout
                   </button>
+                  {/* TODO: Put in User DropDown */}
                 </li>
                 <li className="flex items-center space-x-2">
-                  <Image
-                    src={"/logo-VS.png"}
-                    alt="Profile Picture"
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
+                  
                   <Link
                     href="/home/profile"
                     className="text-blue-600 hover:underline"
                   >
-                    {session.user?.name || "Profile"}
+                    {/* {session.user?.name || "Profile"} */}
+                    <Image
+                      src={"/togepi.webp"}
+                      alt="Profile"
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
                   </Link>
                 </li>
               </>
