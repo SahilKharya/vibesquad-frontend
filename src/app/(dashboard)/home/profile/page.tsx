@@ -2,15 +2,52 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import axios from "axios";
 
 const ProfilePage = () => {
-  const { data: session } = useSession();
-  const [userInfo, setUserInfo] = useState<any>(null); // State to store user info
+  console.log("ProfilePage component rendered");
+  const { data: session, status } = useSession();
+  const [userInfo, setUserInfo] = useState<any>(null);
   const [socialUsernames, setSocialUsernames] = useState({
     twitter: "",
     instagram: "",
     facebook: "",
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  console.log("ProfilePage component rendered");
+
+  // Fetch user info only once when the component mounts
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      if (status === 'authenticated' && session?.user?.id) {
+        console.log('Fetching user data for ID:', session.user.id);
+        try {
+          // Make a GET request to the API route
+          const response = await axios.get(`/api/user/${session.user.id}`);
+          console.log('User data fetched:', response.data);
+          const userData = response.data.data.user;
+
+          // Set user info state
+          setUserInfo(userData);
+
+          // Initialize social usernames from the API response if available
+          setSocialUsernames({
+            twitter: userData.social.twitter?.username || "",
+            instagram: userData.social.instagram?.username || "",
+            facebook: userData.social.facebook?.username || "",
+          });
+        } catch (error) {
+          console.error("Error fetching user info:", error);
+          setError("Failed to load user data.");
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchUserInfo();
+  }, [status, session?.user?.id]);
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     setSocialUsernames({
@@ -19,16 +56,28 @@ const ProfilePage = () => {
     });
   };
 
-  const handleSave = (platform: keyof typeof socialUsernames) => {
-    console.log(`Saved ${platform} username:`, socialUsernames[platform]);
-    // API call or logic to save the specific username for the platform
+  const handleSave = async (platform: keyof typeof socialUsernames) => {
+    try {
+      const response = await axios.put(`/api/user/${session?.user?.id}/social`, {
+        platform,
+        username: socialUsernames[platform],
+      });
+      console.log(`Saved ${platform} username:`, socialUsernames[platform]);
+      alert(`Successfully updated ${platform} username!`);
+    } catch (error) {
+      console.error(`Error updating ${platform} username:`, error);
+      alert(`Failed to update ${platform} username.`);
+    }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg">
       <div className="flex flex-col items-center space-y-4">
         <Image
-          src="/vs.png"
+          src={userInfo?.social?.twitter?.general?.branding?.avatar || "/vs.png"}
           alt="Profile Picture"
           width={128}
           height={128}
@@ -39,7 +88,7 @@ const ProfilePage = () => {
         {userInfo && (
           <div className="mt-4">
             <p className="text-lg font-medium">
-              Social Score: <strong>{userInfo.socialScore}</strong>
+              Social Score: <strong>{userInfo.vibe || "N/A"}</strong>
             </p>
           </div>
         )}
@@ -58,7 +107,7 @@ const ProfilePage = () => {
                 htmlFor={platform}
                 className="block text-gray-700 capitalize"
               >
-                {platform} Username
+                {platform} Username is
               </label>
               <input
                 type="text"

@@ -19,20 +19,20 @@ export default function Campaigns() {
   );
 }
 
-const CampaignContent = ({campaignId, campaignDetails, minScore}) => {
-    return (
-        <div
-        key={campaignId}
-        className="bg-[#F5F5F7] p-8 md:p-14 rounded-3xl mb-4"
-        >
-        <p className="text-neutral-600 text-base md:text-2xl font-sans max-w-3xl mx-auto">
-            {campaignDetails}
-        </p>
-        <p className="my-4 text-2xl font-semibold text-neutral-700">
-            Social Score: {minScore}+
-        </p>
-        </div>
-    );
+const CampaignContent = ({campaignId, campaignDetails, minScore}: {campaignId: number, campaignDetails: string, minScore: number}) => {
+  return (
+      <div
+      key={campaignId}
+      className="bg-[#F5F5F7] p-8 md:p-14 rounded-3xl mb-4"
+      >
+      <p className="text-neutral-600 text-base md:text-2xl font-sans max-w-3xl mx-auto">
+          {campaignDetails}
+      </p>
+      <p className="my-4 text-2xl font-semibold text-neutral-700">
+          Social Score: {minScore}+
+      </p>
+      </div>
+  );
 };
 
 const data = [

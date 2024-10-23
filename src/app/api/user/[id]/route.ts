@@ -4,12 +4,14 @@ import axios from 'axios';
 // Handle GET requests for dynamic user ID
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
     try {
+        console.log(`Fetching data for user ID: params`);
+
         // Extract the dynamic 'id' from the URL
         const { id } = params;
         console.log(`Fetching data for user ID: ${id}`);
 
         // Make a GET request to the external API with the user ID
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/${id}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/2`, {
             timeout: 10000, // Timeout of 10 seconds
         });
 

@@ -28,7 +28,7 @@ export default function CTA() {
       >
         <motion.p className="font-bold text-4xl md:text-6xl text-center bg-clip-text text-transparent bg-gradient-to-b from-pink-50 to-pink-400 py-4">
           Own Your Influence.<br />
-          Enjoy the benegits you deserve.
+          Enjoy the benefits you deserve.
         </motion.p>
         <button className="px-4 py-2 backdrop-blur-sm border bg-red-400 border-pink-500 text-white mx-auto text-center rounded-full relative mt-4">
           <span>Join now →</span>
