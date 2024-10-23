@@ -41,7 +41,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.INSTAGRAM_CLIENT_SECRET!,
       authorization: {
         params: {
-          scope: "instagram_business_basic,instagram_business_content_publish,instagram_business_manage_comments,instagram_business_manage_messages,user_profile,user_media",
+          scope: "instagram_business_basic,instagram_business_content_publish,instagram_business_manage_comments,instagram_business_manage_messages",
         },
       },
       profile(profile: any) {
