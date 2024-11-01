@@ -11,7 +11,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         console.log(`Fetching data for user ID: ${id}`);
 
         // Make a GET request to the external API with the user ID
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/2`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/user/${id}`, {
             timeout: 10000, // Timeout of 10 seconds
         });
 

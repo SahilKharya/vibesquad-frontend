@@ -65,6 +65,7 @@ export const authOptions: NextAuthOptions = {
       console.log('JWT callback triggered');  // Log to check function is invoked
 
       if (user) {
+        console.log('JWT user triggered');  // Log to check function is invoked
         token.id = user.id?.toString();
         token.username = user.username;
 
@@ -87,8 +88,8 @@ export const authOptions: NextAuthOptions = {
               'Content-Type': 'application/json',
             },
           });
-
-          console.log('User successfully saved:', response.data);
+          token.userResponse = response.data
+          console.log('User successfully saved:');
         } catch (error) {
           if (axios.isAxiosError(error)) {
             // Handle Axios-specific errors
@@ -109,10 +110,12 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, user, token }) {
       if (token) {
+        const userResponse = token.userResponse as { data: { user: { id: string } } };
         session.user.id = token.id!;
         session.user.name = token.name!;
         session.user.email = token.email!;
         session.user.username = token.username as string;
+        session.user.userId = userResponse.data.user.id;
       }
 
       return session;

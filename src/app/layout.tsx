@@ -1,9 +1,9 @@
-import Navbar from "@components/Navbar";
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Footer from "@components/layout/footer";
 import AuthProvider from "src/context/AuthProvider";
+import NavBar from "@components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +24,11 @@ export default function RootLayout({
           {" "}
           {/* Wrap everything in SessionProvider */}
           <main className="flex flex-col">
-            <Navbar />
+            <NavBar />
             {children}
           </main>
           <Footer />
+          {/* <LoginModal /> */}
         </AuthProvider>
       </body>
     </html>

@@ -5,7 +5,7 @@ export default function Partners() {
         <div className="container m-auto px-6 space-y-8 md:px-12 lg:px-56">
           <div className="m-auto text-center lg:w-10/12">
             <h2 className="text-2xl text-gray-700 font-bold md:text-4xl">
-              Turn your influence into collaborations with 70+ Global Brands.
+              Turn your influence into collaborations with 70+ Global Brands
             </h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 items-center justify-center">

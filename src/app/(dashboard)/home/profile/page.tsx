@@ -20,11 +20,11 @@ const ProfilePage = () => {
   // Fetch user info only once when the component mounts
   useEffect(() => {
     const fetchUserInfo = async () => {
-      if (status === 'authenticated' && session?.user?.id) {
-        console.log('Fetching user data for ID:', session.user.id);
+      if (status === 'authenticated' && session?.user?.userId) {
+        console.log('Fetching user data for ID:', session.user.userId);
         try {
           // Make a GET request to the API route
-          const response = await axios.get(`/api/user/${session.user.id}`);
+          const response = await axios.get(`/api/user/${session.user.userId}`);
           console.log('User data fetched:', response.data);
           const userData = response.data.data.user;
 
@@ -57,17 +57,17 @@ const ProfilePage = () => {
   };
 
   const handleSave = async (platform: keyof typeof socialUsernames) => {
-    try {
-      const response = await axios.put(`/api/user/${session?.user?.id}/social`, {
-        platform,
-        username: socialUsernames[platform],
-      });
-      console.log(`Saved ${platform} username:`, socialUsernames[platform]);
-      alert(`Successfully updated ${platform} username!`);
-    } catch (error) {
-      console.error(`Error updating ${platform} username:`, error);
-      alert(`Failed to update ${platform} username.`);
-    }
+    // try {
+    //   const response = await axios.put(`/api/user/${session?.user?.userId}/social`, {
+    //     platform,
+    //     username: socialUsernames[platform],
+    //   });
+    //   console.log(`Saved ${platform} username:`, socialUsernames[platform]);
+    //   alert(`Successfully updated ${platform} username!`);
+    // } catch (error) {
+    //   console.error(`Error updating ${platform} username:`, error);
+    //   alert(`Failed to update ${platform} username.`);
+    // }
   };
 
   if (loading) return <p>Loading...</p>;

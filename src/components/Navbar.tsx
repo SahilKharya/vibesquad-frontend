@@ -10,7 +10,7 @@ export default function NavBar() {
 
   return (
     // <div className=' bg-zinc-100 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0'>
-    <div className="bg-slate-800 py-2 border-b border-s-zinc-200 fixed w-full z-10 top-0">
+    <div className="bg-[#f5516a] opacity-80 py-2 border-s-zinc-200 fixed w-full z-10 top-0">
       <div className="mx-8 flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center font-display text-2xl">
           <Image
@@ -59,7 +59,7 @@ export default function NavBar() {
             )}
             {!session && (
               <>
-                  <button  onClick={() => signIn()} className="rounded-md border border-white bg-transparent p-1.5 px-8 text-sm text-white transition-all hover:bg-white hover:text-black">
+                  <button  onClick={() => signIn()} className="rounded-3xl border-2 border-white bg-transparent p-2 px-8 text-sm text-white transition-all hover:bg-white hover:text-[#f5516a]">
                     Log In
                   </button>{" "}
                 &ensp;

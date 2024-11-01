@@ -5,7 +5,7 @@ import { FaXTwitter } from "react-icons/fa6";
 export default function Footer() {
   return (
     <>
-      <footer className="bg-gray-900">
+      <footer className="bg-[#f5516a]">
         <div className="mx-auto max-w-screen-xl space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             <div>
@@ -19,7 +19,7 @@ export default function Footer() {
                 ></Image>
               </div>
 
-              <p className="mt-4 max-w-xs text-gray-400">
+              <p className="mt-4 max-w-xs text-slate-200">
                 Elevate Your Influence.
               </p>
 
@@ -33,7 +33,7 @@ export default function Footer() {
                   >
                     <span className="sr-only">Instagram</span>
 
-                    <FaInstagram className="text-3xl text-pink-500 hover:text-pink-700" />
+                    <FaInstagram className="text-3xl text-white hover:text-slate-300" />
                   </a>
                 </li>
 
@@ -46,7 +46,7 @@ export default function Footer() {
                   >
                     <span className="sr-only">X</span>
 
-                    <FaXTwitter className="text-3xl text-white hover:text-blue-400" />
+                    <FaXTwitter className="text-3xl text-white hover:text-slate-300" />
                   </a>
                 </li>
 
@@ -144,7 +144,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-slate-300">
             &copy; 2024. VibeSquad. All rights reserved.
           </p>
         </div>

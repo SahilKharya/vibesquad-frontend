@@ -3,7 +3,7 @@ import { Spotlight } from "@components/ui/Spotlight";
 
 export function EarlyBird() {
   return (
-    <div className="h-[40rem] w-full rounded-md flex md:items-center md:justify-center bg-red-400/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
+    <div className="h-[40rem] w-full rounded-md flex md:items-center md:justify-center bg-[#f5516a] antialiased bg-grid-white/[0.02] relative overflow-hidden border-y-2 border-red-300">
       <Spotlight
         className="-top-40 left-0 md:left-60 md:-top-20"
         fill="white"
