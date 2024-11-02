@@ -39,11 +39,6 @@ export const authOptions: NextAuthOptions = {
     InstagramProvider({
       clientId: process.env.INSTAGRAM_CLIENT_ID!,
       clientSecret: process.env.INSTAGRAM_CLIENT_SECRET!,
-      authorization: {
-        params: {
-          scope: "instagram_business_basic,instagram_business_content_publish,instagram_business_manage_comments,instagram_business_manage_messages",
-        },
-      },
       profile(profile: any) {
         return {
           id: profile.id!,
